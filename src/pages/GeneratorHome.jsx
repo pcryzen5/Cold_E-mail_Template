@@ -38,12 +38,16 @@ export default function GeneratorHome({
   const [highlightVars, setHighlightVars] = useState(true);
   const [highlightMissing, setHighlightMissing] = useState(false);
   const [copyButtonText, setCopyButtonText] = useState('Copy Message');
+  const [mobileTab, setMobileTab] = useState('editor'); // 'editor' | 'preview'
 
-  // Load persistent profile on mount if form data lacks yourName
+  // Load persistent profile on mount
   useEffect(() => {
-    const profile = storage.getProfile();
-    if (profile?.yourName && !formData.yourName) {
-      setFormData(prev => ({ ...prev, yourName: profile.yourName }));
+    const profile = storage.getProfile() || {};
+    if (Object.keys(profile).length > 0) {
+      setFormData(prev => ({
+        ...profile,
+        ...prev
+      }));
     }
   }, []);
 
@@ -110,8 +114,9 @@ export default function GeneratorHome({
     setFormData(prev => ({ ...prev, [key]: value }));
     setHighlightMissing(false);
 
-    if (persistent && key === 'yourName') {
-      storage.saveProfile({ yourName: value });
+    if (persistent) {
+      const currentProfile = storage.getProfile() || {};
+      storage.saveProfile({ ...currentProfile, [key]: value });
     }
   };
 
@@ -119,19 +124,24 @@ export default function GeneratorHome({
   const handleFillSample = () => {
     const updated = { ...formData };
     mergedFields.forEach(f => {
-      if (SAMPLE_DATA[f.key]) {
+      if (SAMPLE_DATA[f.key] !== undefined) {
         updated[f.key] = SAMPLE_DATA[f.key];
       }
     });
-    if (SAMPLE_DATA.yourName) {
-      storage.saveProfile({ yourName: SAMPLE_DATA.yourName });
-    }
+
+    // Persist all user contact info to profile storage
+    const profileUpdates = {};
+    ['yourName', 'phone', 'linkedIn', 'portfolio'].forEach(k => {
+      if (SAMPLE_DATA[k]) profileUpdates[k] = SAMPLE_DATA[k];
+    });
+    storage.saveProfile({ ...(storage.getProfile() || {}), ...profileUpdates });
+
     setFormData(updated);
     setHighlightMissing(false);
     onShowToast('Sample data populated!', 'info');
   };
 
-  // Clear current form inputs (except persistent yourName)
+  // Clear current form inputs (except persistent fields)
   const handleClearForm = () => {
     const updated = { ...formData };
     mergedFields.forEach(f => {
@@ -147,8 +157,8 @@ export default function GeneratorHome({
   // Reset entire draft
   const handleClearDraft = () => {
     storage.clearDraft();
-    const profile = storage.getProfile();
-    setFormData(profile?.yourName ? { yourName: profile.yourName } : {});
+    const profile = storage.getProfile() || {};
+    setFormData(profile);
     setCustomTextOverride(null);
     setCustomSubjectOverride(null);
     setHighlightMissing(false);
@@ -254,10 +264,39 @@ export default function GeneratorHome({
         customTemplatesCountByCategory={customTemplatesCountByCategory}
       />
 
+      {/* Mobile-Only Tab Switcher (Visible on small screens) */}
+      <div className="mobile-view-tabs" role="tablist" aria-label="Editor and Preview Views">
+        <button
+          type="button"
+          className={`mobile-tab-btn ${mobileTab === 'editor' ? 'active' : ''}`}
+          onClick={() => setMobileTab('editor')}
+          role="tab"
+          aria-selected={mobileTab === 'editor'}
+        >
+          <i className="fa-solid fa-sliders"></i>
+          <span>1. Fill Form</span>
+        </button>
+        <button
+          type="button"
+          className={`mobile-tab-btn ${mobileTab === 'preview' ? 'active' : ''}`}
+          onClick={() => setMobileTab('preview')}
+          role="tab"
+          aria-selected={mobileTab === 'preview'}
+        >
+          <i className="fa-solid fa-eye"></i>
+          <span>2. Live Preview</span>
+          {unfilledFields.length > 0 && (
+            <span className="mobile-unfilled-indicator" title={`${unfilledFields.length} unfilled`}>
+              {unfilledFields.length}
+            </span>
+          )}
+        </button>
+      </div>
+
       {/* Main Workspace Layout */}
       <div className="workspace-layout">
         {/* Left Column: Platform & Dynamic Form */}
-        <section className="panel-card form-panel">
+        <section className={`panel-card form-panel ${mobileTab === 'editor' ? 'mobile-panel-active' : 'mobile-panel-hidden'}`}>
           <PlatformSelector
             selectedPlatform={selectedPlatform}
             onSelectPlatform={(platId) => {
@@ -298,11 +337,12 @@ export default function GeneratorHome({
             onFillSample={handleFillSample}
             onClear={handleClearForm}
             highlightMissing={highlightMissing}
+            onProceedToPreview={() => setMobileTab('preview')}
           />
         </section>
 
         {/* Right Column: Live Output Preview & Direct Editing */}
-        <section className="panel-card preview-panel">
+        <section className={`panel-card preview-panel ${mobileTab === 'preview' ? 'mobile-panel-active' : 'mobile-panel-hidden'}`}>
           {activeTemplate.hasSubject && (
             <EmailSubjectBar
               subjectText={defaultSubject}
@@ -326,6 +366,32 @@ export default function GeneratorHome({
             copyStatusText={copyButtonText}
           />
         </section>
+      </div>
+
+      {/* Mobile Floating Bottom Action Dock (Visible only on mobile) */}
+      <div className="mobile-bottom-dock">
+        {mobileTab === 'editor' ? (
+          <button
+            type="button"
+            className="mobile-dock-btn preview-jump"
+            onClick={() => setMobileTab('preview')}
+          >
+            <i className="fa-solid fa-eye"></i>
+            <span>Preview Message</span>
+            {unfilledFields.length > 0 && (
+              <span className="dock-badge">{unfilledFields.length} unfilled</span>
+            )}
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="mobile-dock-btn copy-instant"
+            onClick={() => handleCopyMessage(plainTextOutput)}
+          >
+            <i className="fa-solid fa-copy"></i>
+            <span>{copyButtonText}</span>
+          </button>
+        )}
       </div>
 
       {/* Modal for Creating Custom Templates */}
