@@ -24,7 +24,7 @@ export default function DynamicMessageForm({
     <div className="dynamic-form-wrapper">
       <div className="form-header">
         <div className="form-title">
-          <i className="fa-solid fa-sliders" style={{ color: '#818cf8', fontSize: '0.95rem' }}></i>
+          <i className="fa-solid fa-sliders" style={{ color: 'var(--lime-accent)', fontSize: '0.95rem' }}></i>
           <span>Step 3: Fill Variables</span>
         </div>
         <div className="form-actions-quick">

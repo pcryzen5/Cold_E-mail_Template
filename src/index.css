@@ -1,52 +1,107 @@
 /* ==========================================================================
-   ColdReach Studio - Global Design System & Variables
-   Modern Obsidian Dark / Glassmorphism
+   ColdReach Studio - Global Design System & CSS Variables
+   Brand Aesthetic: Editorial Deep Teal & Electric Lime (Grammarly Cold Email)
+
+   Color Palette Breakdown:
+   - Primary Background: Deep Teal (#027E6F) & Dark Forest Teal (#013A33 / #012823)
+   - Primary Accent / CTA: Electric Lime (#C9F227)
+   - High Contrast Dark Text: Deep Midnight Ink (#00002B)
+   - Line Art & Wireframe Accents: Mint Cyan (#1DB8A6)
+   - Surfaces & Panels: Deep Forest Glass Teal (rgba(1, 55, 48, 0.85))
+   - Headings & Primary Text: Pure Crisp White (#FFFFFF)
+   - Body Text: Soft Mint-Tinted White (#D6EFEA)
+   - Muted Text & Labels: Sage Mint (#7EAFA8)
    ========================================================================== */
 
 :root {
-  /* Color Palette */
-  --bg-main: #090d16;
-  --bg-surface: rgba(17, 24, 39, 0.75);
-  --bg-surface-elevated: rgba(30, 41, 59, 0.85);
-  --bg-input: rgba(15, 23, 42, 0.8);
-  --bg-input-focus: rgba(26, 36, 62, 0.9);
+  /* 1. Core Brand Color Tokens */
+  --teal-brand: #027E6F;
+  --teal-deep: #01473E;
+  --teal-darkest: #012823;
+  --teal-surface: rgba(1, 55, 48, 0.88);
+  --teal-surface-elevated: rgba(2, 85, 75, 0.94);
+  --lime-accent: #C9F227;
+  --lime-hover: #D7FB3A;
+  --lime-active: #B8DF18;
+  --cyan-mint: #1DB8A6;
+  --cyan-mint-light: #48E5D3;
+  --midnight-ink: #00002B;
+  --text-white: #FFFFFF;
+  --text-body-tint: #D6EFEA;
+  --text-muted-tint: #7EAFA8;
 
-  /* Border Tokens */
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-card: rgba(255, 255, 255, 0.1);
-  --border-focus: rgba(99, 102, 241, 0.5);
+  /* 2. Semantic Mapping Tokens */
+  --color-primary-cta: var(--lime-accent);
+  --color-cta-text: var(--midnight-ink);
+  --color-hero-bg: var(--teal-brand);
+  --color-bg-main: var(--teal-brand);
+  --color-bg-alt: var(--teal-deep);
+  --color-heading: var(--text-white);
+  --color-body: var(--text-body-tint);
+  --color-link-active: var(--lime-accent);
+  --color-border: rgba(29, 184, 166, 0.35);
+  --color-success: #1DB8A6;
 
-  /* Typography Colors */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-highlight: #38bdf8;
+  /* 3. Semantic Surfaces & Backgrounds */
+  --bg-main: var(--teal-brand);
+  --bg-surface: var(--teal-surface);
+  --bg-surface-alt: rgba(1, 40, 35, 0.95);
+  --bg-surface-elevated: var(--teal-surface-elevated);
+  --bg-input: rgba(1, 38, 33, 0.88);
+  --bg-input-focus: rgba(1, 48, 42, 0.98);
 
-  /* Accent Gradients */
-  --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-  --primary-glow: rgba(99, 102, 241, 0.25);
-  --accent-cyan: #06b6d4;
-  --accent-emerald: #10b981;
-  --accent-amber: #f59e0b;
-  --accent-rose: #f43f5e;
+  /* 4. Border & Line Tokens (Wireframe Mint Cyan Style) */
+  --border-subtle: rgba(29, 184, 166, 0.28);
+  --border-card: rgba(29, 184, 166, 0.35);
+  --border-focus: var(--lime-accent);
+  --border-light: rgba(29, 184, 166, 0.18);
+  --border-active: var(--lime-accent);
 
-  /* Platform Identity Colors */
-  --whatsapp-color: #25d366;
-  --linkedin-color: #0a66c2;
-  --email-color: #6366f1;
+  /* 5. Typography Tokens */
+  --text-primary: var(--text-white);
+  --text-heading: var(--text-white);
+  --text-secondary: var(--text-body-tint);
+  --text-muted: var(--text-muted-tint);
+  --text-highlight: var(--lime-accent);
+  --text-on-lime: var(--midnight-ink);
 
-  /* Geometry & Elevation */
+  /* 6. Primary CTA & Interactive Accents */
+  --cta-bg: var(--lime-accent);
+  --cta-text: var(--midnight-ink);
+  --cta-hover: var(--lime-hover);
+  --cta-shadow: 0 4px 18px rgba(201, 242, 39, 0.45);
+  --cta-shadow-hover: 0 8px 30px rgba(201, 242, 39, 0.65);
+  --primary-gradient: linear-gradient(135deg, #C9F227 0%, #B8E41E 100%);
+  --hero-gradient: linear-gradient(135deg, #027E6F 0%, #013A33 100%);
+
+  /* 7. Highlights, Indicators & Alerts */
+  --highlight-pill-bg: rgba(201, 242, 39, 0.22);
+  --highlight-pill-border: rgba(201, 242, 39, 0.85);
+  --accent-cyan: var(--cyan-mint);
+  --accent-rose: #FF5A5F;
+  --success-color: #1DB8A6;
+  --success-bg: rgba(29, 184, 166, 0.15);
+  --success-border: rgba(29, 184, 166, 0.4);
+
+  /* 8. Platform Identity Accents */
+  --whatsapp-color: #25D366;
+  --linkedin-color: #0A66C2;
+  --email-color: #1DB8A6;
+
+  /* 9. Geometry & Elevation */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 18px;
   --radius-xl: 24px;
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 35px -5px var(--primary-glow);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 44px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 25px rgba(201, 242, 39, 0.35);
+  --shadow-glow-cyan: 0 0 25px rgba(29, 184, 166, 0.25);
 
-  /* Transitions */
+  /* 10. Transitions */
   --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Reset & Global */
@@ -58,32 +113,60 @@
 
 body {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--bg-main);
-  color: var(--text-primary);
+  background-color: var(--teal-brand);
+  color: var(--text-secondary);
   min-height: 100vh;
   line-height: 1.55;
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.6) 0px, transparent 100%);
+  /* Immersive Deep Teal Editorial Background with Mint Line Geometry & Lime Ambient Glow */
+  background-color: #027E6F;
+  background-image:
+    /* Reference image style geometric wireframe lines */
+    radial-gradient(circle at 85% 15%, rgba(201, 242, 39, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 10% 80%, rgba(29, 184, 166, 0.2) 0%, transparent 50%),
+    linear-gradient(rgba(29, 184, 166, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29, 184, 166, 0.08) 1px, transparent 1px),
+    linear-gradient(160deg, #027E6F 0%, #014E45 55%, #012D27 100%);
+  background-size:
+    auto,
+    auto,
+    60px 60px,
+    60px 60px,
+    auto;
   background-attachment: fixed;
 }
 
-/* Scrollbars */
+/* Headings Default */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-heading);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Links Default */
+a {
+  color: var(--color-link-active);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--lime-hover);
+}
+
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-main);
+  background: rgba(1, 40, 35, 0.95);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(29, 184, 166, 0.45);
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--lime-accent);
 }
 
 /* Base Container */
@@ -91,4 +174,5 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   padding: 24px 24px 60px 24px;
+  position: relative;
 }
